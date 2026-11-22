@@ -1,3 +1,7 @@
+// Poster note: entry.png is a finished front page rendered ahead of time
+// from the Sunday 22 November 2026 news summary. This program never
+// redraws the image; it only copies the shipped file to the output
+// directory the grader reads, then checks the copy is complete.
 // Entry program for the make.fun news-image-20261122 bounty.
 //
 // The poster (entry.png) is a newspaper front page summing up Sunday
@@ -34,6 +38,10 @@ function publishPoster(): string {
   }
   if (size > 1048576) {
     throw new Error(`copied entry.png is ${size} bytes, over the 1 MiB cap`);
+  }
+  const sourceSize = statSync(source).size;
+  if (size !== sourceSize) {
+    throw new Error(`copied entry.png is ${size} bytes, expected ${sourceSize}`);
   }
   return target;
 }
